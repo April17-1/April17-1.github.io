@@ -663,7 +663,7 @@
 </style>
 <video id="index-video" autoplay loop muted>
 
-    <source src="https://wave.video/embed/6561dc8aa1ea6b7b7c650f46/6561dd0184fc47505b56ecd7.mp4">
+    <source src="https://wave.video/embed/656488ef84fc47505b5acc7a/656488ef84fc47505b5acc78.mp4">
 
 </video>
 
@@ -1176,6 +1176,14 @@ $(function () {
     
 
     <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
     
 
      
@@ -1215,6 +1223,11 @@ $(function () {
 
     <!--腾讯兔小巢-->
     
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
     
 
     

@@ -241,7 +241,7 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background-image: linear-gradient(to right, #48a6f7 0%, #0f859d 100%);
 }
 
 .text-color {
@@ -550,7 +550,7 @@ header .go-back i {
     height: 40vh !important;
 }
 
-.bg-cover:after {
+/* .bg-cover:after {
     -webkit-animation: rainbow 60s infinite;
     animation: rainbow 60s infinite;
 }
@@ -565,7 +565,7 @@ header .go-back i {
     left: 0;
     top: 0;
     content: "";
-}
+} */
 
 .bg-cover .container {
     position: relative;
@@ -1468,8 +1468,8 @@ thead {
         left: 50%;
         margin-left: -20px;
         /* Force Hardware Acceleration in WebKit */
-        -webkit-transform: translateZ(0);
-        -webkit-backface-visibility: hidden;
+        /* -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden; */
     }
 
     .cssanimations .cd-timeline-img.is-hidden {
@@ -2029,8 +2029,8 @@ p.search-result-summary{
 
 /*二级菜单*/
 
-.nav-menu {
-}
+/* .nav-menu {
+} */
 
 .nav-menu li .sub-nav {
     position: absolute;
