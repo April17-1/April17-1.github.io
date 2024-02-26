@@ -5,8 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="AlexNet论文精读, April">
-    <meta name="description" content="背景imageNet比赛的任务是将几百万个图片分为几千个类，AlexNet，是于2012年由ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。
-摘要做了一个新的网络模型，中间使用了哪些层，结果比第二名">
+    <meta name="description" content="论文链接
+ImageNet Classification with Deep Convolutional Neural Networks (nips.cc)
+背景imageNet比赛的任务是将几百万个图片分为几千个类，AlexNet，是于2">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -517,9 +518,27 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>imageNet比赛的任务是将几百万个图片分为几千个类，AlexNet，是于2012年由ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。</p>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>做了一个新的网络模型，中间使用了哪些层，结果比第二名的结果好很多。</p>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1>
+                <p>论文链接</p>
+<p><a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf">ImageNet Classification with Deep Convolutional Neural Networks (nips.cc)</a></p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>imageNet比赛的任务是将几百万个图片分为几千个类，AlexNet，是于2012年由Imagenet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。</p>
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>做了一个新的网络模型，中间使用了哪些层，结果比第二名的结果好很多。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>没有结论，只有讨论（说明和展望）</p>
+<h3 id="关键图"><a href="#关键图" class="headerlink" title="关键图"></a>关键图</h3><p>深度神经网络的一个图片训练出来最后的向量，在语义空间中的表示特别好，相似的图片会放在一起，分类效果较好。</p>
+<p>表格数据对比：自己的结果特别好</p>
+<p>结论：效果特别好，使用了神经网络。</p>
+<h1 id="研读"><a href="#研读" class="headerlink" title="研读"></a>研读</h1><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>大的数据集、大的模型、防止过拟合，使用了新的网络模型，新的技术，而不是现有的技术的融合来优化。</p>
+<p>预处理：imagenet的图片大小尺寸都不一样。我们的模型将图片裁剪为256*256，没有其余的任何预处理，没有抽取特征，原始的图片输入，神经网络可以处理直接得到输出，是一种end  to  end的模式。（奥卡姆剃刀原则，简单有效的东西是能够持久的）</p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>如果说卷积层、池化层和激活函数层等操作是将原始数据映射到隐层特征空间的话，全连接层则起到将学到的“分布式特征表示”映射到样本标记空间的作用。</p>
+<p>ReLU&#x3D;max（0，x）。并不是效果特别好，而是因为简单，好用。</p>
+<p>pooling层：做了一些重叠方面的改动</p>
+<p>卷积：压缩后的一个像素可以代表原始图片中的一大块像素，通道数不断增加每个通道数是去看一种特定的模式。有多少个通道数就可以识别图片中的多少种模式。全连接层作为“’分类器’将学到的”分布式特征表示“映射到样本标记空间中。</p>
+<h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>双GPU训练、分布式训练</p>
+<h3 id="降低过拟合"><a href="#降低过拟合" class="headerlink" title="降低过拟合"></a>降低过拟合</h3><p>过拟合：给你一些题目，你把题目背了下来，你根本就没有理解题是在干什么，所以考试的时候肯定考不好</p>
+<h3 id="神经网络的可解释性问题"><a href="#神经网络的可解释性问题" class="headerlink" title="神经网络的可解释性问题"></a>神经网络的可解释性问题</h3><p>一个诟病：神经网络到底学的是什么东西，到底发生了什么得到了一个这么好的结果</p>
+<p>虽然很多时候不知道在学什么，但是有一些神经元还是很有对应性的，在底层的神经元学到了一些局部的信息，比如纹理和方向</p>
+<p>在上层中学到的是比较全局点的，比如一个手，一个动物，一个动物，或者其他信息</p>
+<p>神经网络到底学的是什么仍然是一个不可解释性的问题，是去学一个东西的形状还是学一个东西的纹理</p>
+
                 
             </div>
             <hr/>
@@ -663,18 +682,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/02/06/AlexNet%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
+                <a href="/2024/02/20/ResNet%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="AlexNet论文精读">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="ResNet论文精读">
                         
-                        <span class="card-title">AlexNet论文精读</span>
+                        <span class="card-title">ResNet论文精读</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -684,9 +702,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-02-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-02-20
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -695,7 +713,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
