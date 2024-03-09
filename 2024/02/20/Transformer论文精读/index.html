@@ -548,12 +548,7 @@
 <p>batchnorm：行为样本batch，列为特征feature，将列特征feature在一个mini-batch中均值变为0，方差变为1。</p>
 <p>此外batchnorm还会学一个 λ， β。可以将向量变为均值变为任意值，方差变为任意值。</p>
 <p><strong>Z-Score</strong> ：将数据变换为均值μ为0，标准差σ为1的分布（减去均值，除以标准差）</p>
-<p><img src="/picture/transfromer1.jpg" alt="transfromer1"></p>
-<p>解释D（x*）：</p>
-<p>由方差的性质：</p>
-<p><img src="/picture/transformer3.png" alt="transformer3"></p>
-<p>进行如下推导：</p>
-<p><img src="/picture/transformer2.png" alt="transformer2"></p>
+<p>**Z-Score的解释见[附1](# 附1)</p>
 <p>layernorm和batchnorm区别：layernorm对每个样本（行）做normalization（标准化）。即把数据转置一下，放到batchnorm中计算一下，再转置回去。</p>
 <p>在三维结构中，layernorm应用更加普遍一些：因为样本的特征长短不一，使用batchnorm切割的时候需要补0，算均值和方差的时候0的部分有影响，波动较大。而layernorm中均值和方差是针对各自的样本来做的，因为是在样本自身里面来算的，样本的长短不受影响。</p>
 <p><strong>解码器</strong></p>
@@ -575,6 +570,41 @@
 <p>先将VKQ投影到低维，其中投影的w是可以学的（给h次机会可以学到不一样的投影的方法）。使得在投影进去的度量空间中可以匹配不同的模式所需要的相似函数，最后把这些东西回来再做一次投影。类似于卷积神经网络中有多个输出通道的感觉。</p>
 <p>还是之前的QKV，输出是不同头的concat（）再投影到一个Wo里面。对每个头中的QKV通过一个不同的可以学习的Wq、Wk、Wv投影到一个dv上，再做注意力函数。其中h是几，就把原始维度分为几份。</p>
 <p><img src="/picture/transformer5.png" alt="transformer5"></p>
+<p>transformer模型中的三个attention：</p>
+<p>自注意力：同一个东西复制三次，既作为key、又作为value、又作为query。输出的输入的加权和（一句话中某个词与其他词之间的关联程度）</p>
+<p>带musk的注意力</p>
+<p>key和value来自编码器的输出，query来自解码器下一个attention的输入：编码器中的一些输出，根据解码器想要的东西拎出来（英文翻译中文，自动去注意自身比较感兴趣的词，不感兴趣的词可以忽略掉）</p>
+<p><strong>Position-wise Feed-Forward Networks</strong></p>
+<p>全连接的前馈网络：由两个线性变换组成，在两个线性变换之间有一个重新激活。</p>
+<p><strong>position-wise</strong>：把一个多层感知机（MLP）对每一个词作用一次，对每个词作用是同样的多层感知机（MLP）。是多层感知机（MLP）作用在最后一个维度。</p>
+<p>先将维度扩大4倍，输出的时候，再回到原来的维度：单隐藏层MLP，中间隐藏层把输入扩大四倍，最后输出的时候回到输入的大小。</p>
+<p>**MLP解释见[附2](# 附2)</p>
+<p>和RNN的区别：RNN和transformer一样都是用一个线性层（或MLP）来做一个语义空间的转换。</p>
+<p>不同的地方在于如何传递序列的信息。RNN是把上一个时刻的输出传入下一个时候做输入。transformer通过一个attention层在全局中拿到整个序列的信息，然后再用MLP做语义的转换。</p>
+<p>关注点都在如何有效的使用序列的信息。</p>
+<p><strong>positional encoding</strong></p>
+<p>将一个词的位置i编码，加入到输入中。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>例子是英语翻译为德语</p>
+<p>模型复杂，但是大多数参数的可以推算出来的，只有少量参数需要调参</p>
+<h2 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h2><p>写作简单，没有多余的写作技巧。</p>
+<p>写作启发：写文章的时候，可以把内容介绍减少一点，把不重要的东西放到附录中，在正文中最好讲过故事，说明自己为什么做这个事情，自己的设计理念是怎么样的，以及对文章的思考的怎么样的，会让文章显得更有深度，给读者的代入感也更强烈。</p>
+<h2 id="附1"><a href="#附1" class="headerlink" title="附1"></a>附1</h2><p><img src="/picture/transfromer1.jpg" alt="transfromer1"></p>
+<p>解释D（x*）：</p>
+<p>由方差的性质：</p>
+<p><img src="/picture/transformer3.png" alt="transformer3"></p>
+<p>进行如下推导：</p>
+<p><img src="/picture/transformer2.png" alt="transformer2"></p>
+<h2 id="附2"><a href="#附2" class="headerlink" title="附2"></a>附2</h2><h4 id="多层感知机（MLP）原理简介"><a href="#多层感知机（MLP）原理简介" class="headerlink" title="多层感知机（MLP）原理简介"></a>多层感知机（MLP）原理简介</h4><p><strong>多层感知机（MLP，Multilayer Perceptron）</strong>也叫<strong>人工神经网络（ANN，Artificial Neural Network）</strong>，除了输入输出层，它中间可以有多个隐层，最简单的MLP只含一个隐层，即三层的结构，如下图：</p>
+<p><img src="/picture/transformer6.png" alt="transformer6"></p>
+<p>从上图可以看到，多层感知机层与层之间是全连接的（全连接的意思就是：上一层的任何一个神经元与下一层的所有神经元都有连接）。多层感知机最底层是输入层，中间是隐藏层，最后是输出层。</p>
+<p><strong>输入层</strong>没什么好说，你输入什么就是什么，比如输入是一个n维向量，就有n个神经元。</p>
+<p><strong>隐藏层</strong>的神经元怎么得来？首先它与输入层是全连接的，假设输入层用向量X表示，则隐藏层的输出就是</p>
+<p>f(W1X+b1)，W1是权重（也叫连接系数），b1是偏置，函数f 可以是常用的sigmoid函数或者tanh函数：</p>
+<p><img src="/picture/transformer7.png" alt="transformer7"></p>
+<p>最后就是<strong>输出层</strong>，输出层与隐藏层是什么关系？其实隐藏层到输出层可以看成是一个多类别的逻辑回归，也即softmax回归，所以输出层的输出就是softmax(W2X1+b2)，X1表示隐藏层的输出f(W1X+b1)。</p>
+<p>MLP整个模型就是这样子的，上面说的这个<strong>三层的MLP用公式总结</strong>起来就是，函数G是softmax</p>
+<p><img src="/picture/transformer8.png" alt="transformer8"></p>
+<p>因此，MLP所有的参数就是各个层之间的连接权重以及偏置，包括W1、b1、W2、b2。对于一个具体的问题，怎么确定这些参数？求解最佳的参数是一个最优化问题，解决最优化问题，最简单的就是梯度下降法了（SGD）：首先随机初始化所有参数，然后迭代地训练，不断地计算梯度和更新参数，直到满足某个条件为止（比如误差足够小、迭代次数足够多时）。这个过程涉及到代价函数、规则化（Regularization）、学习速率（learning rate）、梯度计算等。</p>
 
                 
             </div>
@@ -715,18 +745,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/02/20/Transformer%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
+                <a href="/2024/03/08/GNN-GCN%E8%AE%BA%E6%96%87%E7%B2%BE%E5%BA%A6/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Transformer论文精读">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="GNN/GCN论文精度">
                         
-                        <span class="card-title">Transformer论文精读</span>
+                        <span class="card-title">GNN/GCN论文精度</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -736,9 +765,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-02-20
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -747,7 +776,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
